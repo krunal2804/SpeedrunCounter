@@ -8,20 +8,62 @@
 
 ## Checkpoint 0: 📦 Environment Setup 📚
 
-Before you begin, you need to install the following tools:
+Before starting, ensure you have the following installed:
 
-- [Node (>= v18.17)](https://nodejs.org/en/download/)
-- Yarn ([v1](https://classic.yarnpkg.com/en/docs/install/) or [v2+](https://yarnpkg.com/getting-started/install))
+- [Node.js (>= v18.17)](https://nodejs.org/en/download/)
+- [Yarn](https://classic.yarnpkg.com/en/docs/install/)
 - [Git](https://git-scm.com/downloads)
 
-Then download the challenge to your computer and install dependencies by running:
+### Install Rust and Cargo
+
+1. Install Rust using `rustup`, which is the recommended way to install Rust:
+   ```bash
+   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+   ```
+   Follow the on-screen instructions to complete the installation.
+
+2. After installation, ensure that the Cargo and Rust binaries are in your `PATH`. You can do this by adding the following line to your shell configuration file (e.g., `~/.bashrc` or `~/.zshrc`):
+   ```bash
+   export PATH="$HOME/.cargo/bin:$PATH"
+   ```
+   Then, run:
+   ```bash
+   source ~/.bashrc  # or source ~/.zshrc
+   ```
+
+### Install Cargo-Stylus
+
+1. Install `cargo-stylus` globally using Cargo:
+   ```bash
+   cargo install cargo-stylus
+   ```
+
+2. Add the `wasm32-unknown-unknown` build target to your Rust compiler:
+   ```bash
+   rustup target add wasm32-unknown-unknown
+   ```
+
+3. You can verify the installation by checking the version:
+   ```bash
+   cargo stylus --help
+   ```
+
+For more detailed instructions on `cargo-stylus`, you can visit the [cargo-stylus GitHub repository](https://github.com/OffchainLabs/cargo-stylus).
+
+### Install Dependencies
+
+After cloning the repositories, navigate to the respective directories and install dependencies:
+
+```bash
+cd speedrun_stylus
+yarn install
+```
 
 > ⚠️ IMPORTANT: Please make sure to run the below commands through WSL only. In PowerShell, you'll get an error because some files are not supported on Windows.
 
 ```sh
-git clone https://github.com/abhi152003/speedrun_stylus.git
+git clone -b counter https://github.com/abhi152003/speedrun_stylus.git
 cd speedrun_stylus
-git checkout counter
 yarn install
 ```
 
@@ -166,4 +208,4 @@ cargo stylus deploy -e http://127.0.0.1:8547 --private-key "$your_private_key"
 ---
 
 
-> 🏃 Head to your next challenge [here](https://github.com/abhi152003/speedrun_stylus).
+> 🏃 Head to your next challenge [here](https://speedrun-stylus.vercel.app/challenge/simple-counter-example).
