@@ -50,15 +50,6 @@ Before starting, ensure you have the following installed:
 
 For more detailed instructions on `cargo-stylus`, you can visit the [cargo-stylus GitHub repository](https://github.com/OffchainLabs/cargo-stylus).
 
-### Install Dependencies
-
-After cloning the repositories, navigate to the respective directories and install dependencies:
-
-```bash
-cd speedrun_stylus
-yarn install
-```
-
 > ⚠️ IMPORTANT: Please make sure to run the below commands through WSL only. In PowerShell, you'll get an error because some files are not supported on Windows.
 
 ```sh
