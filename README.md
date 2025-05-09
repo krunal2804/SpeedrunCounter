@@ -52,24 +52,99 @@ For more detailed instructions on `cargo-stylus`, you can visit the [cargo-stylu
 
 > ⚠️ IMPORTANT: Please make sure to run the below commands through WSL only. In PowerShell, you'll get an error because some files are not supported on Windows.
 
-```sh
-git clone -b counter https://github.com/abhi152003/speedrun_stylus.git
-cd speedrun_stylus
-yarn install
+## 🚩 Challenge Setup Instructions
+
+### Running Challenges in Ubuntu/Mac or Windows (WSL)
+
+To ensure a smooth experience while running the challenges, follow these instructions based on your operating system:
+
+#### For Ubuntu/Mac Users:
+1. Open your terminal.
+2. Clone the repository:
+   ```bash
+   git clone -b counter https://github.com/abhi152003/speedrun_stylus.git speedrun_stylus_counter
+   cd speedrun_stylus_counter
+   yarn install
+   ```
+
+3. Start the local devnode in Docker:
+   ```bash
+   cd packages
+   cd stylus-demo
+   bash run-dev-node.sh
+   ```
+
+4. In a second terminal window, start your frontend:
+   ```bash
+   cd speedrun_stylus
+   cd packages
+   cd nextjs
+   yarn run dev
+   ```
+
+5. Open [http://localhost:3000](http://localhost:3000) to see the app.
+
+#### For Windows Users (Using WSL):
+1. Open your WSL terminal.
+2. Ensure you have set your Git username and email globally:
+   ```bash
+   git config --global user.name "Your Name"
+   git config --global user.email "your.email@example.com"
+   ```
+
+3. Clone the repository:
+   ```bash
+   git clone -b counter https://github.com/abhi152003/speedrun_stylus.git
+   cd speedrun_stylus
+   yarn install
+   ```
+
+4. Start the local devnode in Docker:
+   ```bash
+   cd packages
+   cd stylus-demo
+   bash run-dev-node.sh
+   ```
+
+5. In a second WSL terminal window, start your frontend:
+   ```bash
+   cd speedrun_stylus
+   cd packages
+   cd nextjs
+   yarn run dev
+   ```
+
+6. Open [http://localhost:3000](http://localhost:3000) to see the app.
+
+### Troubleshooting Common Issues
+
+#### 1. `stylus` Not Recognized
+If you encounter an error stating that `stylus` is not recognized as an external or internal command, run the following command in your terminal:
+```bash
+sudo apt-get update && sudo apt-get install -y pkg-config libssl-dev
 ```
-
-> In the same terminal, after all the dependencies have installed, run the below commands to start the local devnode in Docker. You'll need to spin up the Stylus nitro devnode by running the script through commands. This script will deploy the contract and generate the ABI so you can interact with the contracts written in RUST:
-
-Contracts will be deployed through the cargo stylus command using the pre-funded account's private key so users can perform any transaction through the frontend while interacting with the contract.
-
-```sh
-cd speedrun_stylus # if not done
-cd packages
-cd stylus-demo
+After that, check if `stylus` is installed by running:
+```bash
+cargo stylus --version
 ```
+If the version is displayed, `stylus` has been successfully installed and the path is correctly set.
 
-> Now open your Docker desktop and then return to your IDE and run bash run-dev-node.sh. This will spin up the nitro devnode in Docker. You can check it out in your Docker desktop. This will take some time to deploy the RUST contract, and then the script will automatically generate the ABI. You can view all these transactions in your terminal and Docker desktop. The Docker node is running at localhost:8547,
-but before running this command make sure about below thing
+#### 2. ABI Not Generated
+If you face issues with the ABI not being generated, you can try one of the following solutions:
+- **Restart Docker Node**: Pause and restart the Docker node and the local setup of the project. You can do this by deleting all ongoing running containers and then restarting the local terminal using:
+  ```bash
+  yarn run dev
+  ```
+- **Modify the Script**: In the `run-dev-node.sh` script, replace the line:
+  ```bash
+  cargo stylus export-abi
+  ```
+  with:
+  ```bash
+  cargo run --manifest-path=Cargo.toml --features export-abi
+  ```
+
+---
 
 ## 🚨 Fixing Line Endings and Running Shell Scripts in WSL on a CRLF-Based Windows System
 
@@ -79,7 +154,7 @@ but before running this command make sure about below thing
 
 ## 🛠️ Steps to Fix the Issue
 
-###  Convert Line Endings to LF
+### Convert Line Endings to LF
 Shell scripts created in Windows often have `CRLF` line endings, which cause issues in Unix-like environments such as WSL. To fix this:
 
 #### Using `dos2unix`
@@ -89,23 +164,22 @@ Shell scripts created in Windows often have `CRLF` line endings, which cause iss
    ```
 
 2. Convert the script's line endings:
-    ```bash
+   ```bash
    dos2unix run-dev-node.sh
    ```
 
 3. Make the Script Executable:
-    ```bash
-    chmod +x run-dev-node.sh
-    ```
+   ```bash
+   chmod +x run-dev-node.sh
+   ```
 
-4. Run the Script in WSL
-    ```bash
-    bash run-dev-node.sh
-    ```
+4. Run the Script in WSL:
+   ```bash
+   bash run-dev-node.sh
+   ```
 
-> Then in a second WSL terminal window, you can run below commands to start your 📱 frontend:
-
-```sh
+> Then in a second WSL terminal window, you can run the below commands to start your 📱 frontend:
+```bash
 cd speedrun_stylus ( if not done )
 cd packages ( if not done )
 cd nextjs
@@ -199,4 +273,4 @@ cargo stylus deploy -e http://127.0.0.1:8547 --private-key "$your_private_key"
 ---
 
 
-> 🏃 Head to your next challenge [here](https://speedrun-stylus.vercel.app/challenge/simple-counter-example).
+> 🏃 Head to your next challenge [here](https://speedrun-stylus.vercel.app/challenge/simple-nft-example).
