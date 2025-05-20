@@ -46,7 +46,9 @@ To ensure a smooth experience while running the challenges, follow these instruc
    bash run-dev-node.sh
    ```
 
-5. In a second WSL terminal window, start your frontend:
+5. **Copy the contract address** from the bash terminal output. You will need to paste this address into the `contractAddress` variable in the `DebugContract` component.
+
+6. In a second WSL terminal window, start your frontend:
    ```bash
    cd speedrun_stylus
    cd packages
@@ -54,7 +56,7 @@ To ensure a smooth experience while running the challenges, follow these instruc
    yarn run dev
    ```
 
-6. Open [http://localhost:3000](http://localhost:3000) to see the app.
+7. Open [http://localhost:3000](http://localhost:3000) to see the app.
 
 ### Troubleshooting Common Issues
 
@@ -144,7 +146,9 @@ To ensure a smooth experience while running the challenges, follow these instruc
    bash run-dev-node.sh
    ```
 
-5. In a second WSL terminal window, start your frontend:
+5. **Copy the contract address** from the bash terminal output. You will need to paste this address into the `contractAddress` variable in the `DebugContract` component.
+
+6. In a second WSL terminal window, start your frontend:
    ```bash
    cd speedrun_stylus
    cd packages
@@ -152,7 +156,7 @@ To ensure a smooth experience while running the challenges, follow these instruc
    yarn run dev
    ```
 
-6. Open [http://localhost:3000](http://localhost:3000) to see the app.
+7. Open [http://localhost:3000](http://localhost:3000) to see the app.
 
 ### Troubleshooting Common Issues
 
