@@ -13,44 +13,82 @@ Before starting, ensure you have the following installed:
 - [Node.js (>= v18.17)](https://nodejs.org/en/download/)
 - [Yarn](https://classic.yarnpkg.com/en/docs/install/)
 - [Git](https://git-scm.com/downloads)
+- WSL
+- Rust (including `rustc`, `rustup`, and `cargo`)
+- `cargo-stylus`
+- `sudo`
+- Docker
+- Curl
 
-### Install Rust and Cargo
+### Running Challenges in Windows (Using WSL)
 
-1. Install Rust using `rustup`, which is the recommended way to install Rust:
+To ensure a smooth experience while running the challenges, follow these instructions based on your operating system:
+
+#### For Windows Users (Using WSL):
+1. Open your WSL terminal.
+2. Ensure you have set your Git username and email globally:
    ```bash
-   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-   ```
-   Follow the on-screen instructions to complete the installation.
-
-2. After installation, ensure that the Cargo and Rust binaries are in your `PATH`. You can do this by adding the following line to your shell configuration file (e.g., `~/.bashrc` or `~/.zshrc`):
-   ```bash
-   export PATH="$HOME/.cargo/bin:$PATH"
-   ```
-   Then, run:
-   ```bash
-   source ~/.bashrc  # or source ~/.zshrc
-   ```
-
-### Install Cargo-Stylus
-
-1. Install `cargo-stylus` globally using Cargo:
-   ```bash
-   cargo install cargo-stylus
+   git config --global user.name "Your Name"
+   git config --global user.email "your.email@example.com"
    ```
 
-2. Add the `wasm32-unknown-unknown` build target to your Rust compiler:
+3. Clone the repository:
    ```bash
-   rustup target add wasm32-unknown-unknown
+   git clone -b counter https://github.com/abhi152003/speedrun_stylus.git
+   cd speedrun_stylus
+   yarn install
    ```
 
-3. You can verify the installation by checking the version:
+4. Start the local devnode in Docker:
    ```bash
-   cargo stylus --help
+   cd packages
+   cd stylus-demo
+   bash run-dev-node.sh
    ```
 
-For more detailed instructions on `cargo-stylus`, you can visit the [cargo-stylus GitHub repository](https://github.com/OffchainLabs/cargo-stylus).
+5. In a second WSL terminal window, start your frontend:
+   ```bash
+   cd speedrun_stylus
+   cd packages
+   cd nextjs
+   yarn run dev
+   ```
 
-> ⚠️ IMPORTANT: Please make sure to run the below commands through WSL only. In PowerShell, you'll get an error because some files are not supported on Windows.
+6. Open [http://localhost:3000](http://localhost:3000) to see the app.
+
+### Troubleshooting Common Issues
+
+#### 1. `stylus` Not Recognized
+If you encounter an error stating that `stylus` is not recognized as an external or internal command, run the following command in your terminal:
+```bash
+sudo apt-get update && sudo apt-get install -y pkg-config libssl-dev
+```
+After that, check if `stylus` is installed by running:
+```bash
+cargo stylus --version
+```
+If the version is displayed, `stylus` has been successfully installed and the path is correctly set.
+
+#### 2. ABI Not Generated
+If you face issues with the ABI not being generated, you can try one of the following solutions:
+- **Restart Docker Node**: Pause and restart the Docker node and the local setup of the project. You can do this by deleting all ongoing running containers and then restarting the local terminal using:
+  ```bash
+  yarn run dev
+  ```
+- **Modify the Script**: In the `run-dev-node.sh` script, replace the line:
+  ```bash
+  cargo stylus export-abi
+  ```
+  with:
+  ```bash
+  cargo run --manifest-path=Cargo.toml --features export-abi
+  ```
+- **Access Denied Issue**: If you encounter an access denied permission error during ABI generation, run the following command and then execute the script again:
+  ```bash
+  sudo chown -R $USER:$USER target
+  ```
+
+---
 
 ## 🚩 Challenge Setup Instructions
 
@@ -273,4 +311,4 @@ cargo stylus deploy -e http://127.0.0.1:8547 --private-key "$your_private_key"
 ---
 
 
-> 🏃 Head to your next challenge [here](https://speedrun-stylus.vercel.app/challenge/simple-nft-example).
+> 🏃 Head to your next challenge [here](https://www.speedrunstylus.com/challenge/simple-nft-example).
