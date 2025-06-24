@@ -33,6 +33,15 @@ Before starting, ensure you have the following installed:
   cargo install cargo-stylus
   ```
 
+    > ⚠️ **Note for Ubuntu users**: If you face issues related to pkg-config while trying to install cargo-stylus, run these commands:
+  ```bash
+  sudo apt update
+  sudo apt install pkg-config
+  sudo apt install libssl-dev
+  sudo apt install build-essential
+  ```
+
+
 - [Foundry](https://getfoundry.sh/introduction/installation/) - Required for smart contract development
 
 ### Foundry Installation Steps:
@@ -40,7 +49,6 @@ Before starting, ensure you have the following installed:
 #### 1. Open your WSL terminal.
 
 #### 2. Install Foundry using the official install script:
-
 ```bash
 curl -L https://foundry.paradigm.xyz | bash
 ```
@@ -279,6 +287,39 @@ Shell scripts created in Windows often have `CRLF` line endings, which cause iss
    ```bash
    bash run-dev-node.sh
    ```
+
+---
+
+## 🚀 Submitting Your Challenge
+
+After you have completed the setup and are ready to submit your solution, follow these steps:
+
+1. **Create a New GitHub Repository**
+   - Go to [GitHub](https://github.com/) and create a new repository (public or private as required by the challenge).
+
+2. **Set Your Local Repository's Remote URL**
+   - In your project directory, update the remote URL to your new repository:
+     ```bash
+     git remote set-url origin https://github.com/yourusername/your-repo.git
+     ```
+
+3. **Push Your Code to GitHub**
+   - Add and commit any changes if you haven't already:
+     ```bash
+     git add .
+     git commit -m "Initial commit for challenge submission"
+     ```
+   - Push your code:
+     ```bash
+     git push -u origin counter
+     ```
+
+4. **Submit Your Challenge**
+   - Copy your repository link in the following format (without `.git` at the end):
+     ```
+     https://github.com/yourusername/your-repo
+     ```
+   - Use this link to submit your challenge as instructed.
 
 ---
 
