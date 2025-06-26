@@ -155,7 +155,19 @@ forge --version
 
 5. Open [http://localhost:3000](http://localhost:3000) to see the app.
 
+### ⚠️ Important: Contract Address Setup
+
+After running the devnode script, **copy the contract address** from the bash terminal output. You will need to paste this address into the `contractAddress` variable in the `DebugContract` component.
+
+> 💡 **Note**: If both contract addresses are the same, you don't need to do anything - you're ready to go and interact with the stylus-based smart contracts written in RUST!
+
+![DockerImg](https://github.com/user-attachments/assets/04159bef-cc35-442f-b67a-5e8f7033db43)
+
+<p align="center"><em>Docker_Img</em></p>
+
 #### For Windows Users (Using WSL):
+
+> 📝 **Note**: After completing step 4 below, make sure to follow the "Contract Address Setup" section above for configuring your contract address.
 
 1. Open your WSL terminal.
 2. Ensure you have set your Git username and email globally:
@@ -193,16 +205,7 @@ forge --version
    bash run-dev-node.sh
    ```
 
-5. **Copy the contract address** from the bash terminal output. You will need to paste this address into the `contractAddress` variable in the `DebugContract` component.
-
-> 💡 **Note**: If both contract addresses are the same, you don't need to do anything - you're ready to go and interact with the stylus-based smart contracts written in RUST!
-
-
-![DockerImg](https://github.com/user-attachments/assets/04159bef-cc35-442f-b67a-5e8f7033db43)
-
-<p align="center"><em>Docker_Img</em></p>
-
-6. In a second WSL terminal window, start your frontend:
+5. In a second WSL terminal window, start your frontend:
 
    ```bash
    cd speedrun_stylus/packages/nextjs
@@ -212,7 +215,7 @@ forge --version
    yarn run dev
    ```
 
-7. Open [http://localhost:3000](http://localhost:3000) to see the app.
+6. Open [http://localhost:3000](http://localhost:3000) to see the app.
 
 ### 🛠️ Troubleshooting Common Issues
 
