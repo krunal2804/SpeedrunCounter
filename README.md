@@ -406,4 +406,45 @@ cargo stylus deploy -e http://127.0.0.1:8547 --private-key "$your_private_key"
 
 ---
 
+## 🚀 Deploying to Arbitrum Sepolia
+
+If you want to deploy your contract to the Arbitrum Sepolia testnet, follow these steps:
+
+1. **Run the Sepolia Deployment Script**
+
+   Open your terminal and run:
+   ```bash
+   cd packages/stylus-demo
+   bash run-sepolia-deploy.sh
+   ```
+   This will deploy your contract to Arbitrum Sepolia and output the contract address and transaction hash.
+
+2. **Configure the Frontend for Sepolia**
+
+   - Go to the `packages/nextjs` directory:
+     ```bash
+     cd packages/nextjs
+     ```
+   - Copy the example environment file:
+     ```bash
+     cp .env.example .env
+     ```
+   - Open the `.env` file and set the following variables:
+     ```env
+     NEXT_PUBLIC_RPC_URL=https://sepolia-rollup.arbitrum.io/rpc
+     NEXT_PUBLIC_PRIVATE_KEY=0xyour_private_key_of_your_ethereum_wallet
+     ```
+     Replace `your_private_key_of_your_ethereum_wallet` with your actual Ethereum wallet private key (never share this key publicly).
+
+3. **Start the Frontend**
+
+   ```bash
+   yarn run dev
+   ```
+   Your frontend will now connect to the Arbitrum Sepolia network and interact with your deployed contract.
+
+   Note : Don't forget to change the contract address in the `DebugContracts.tsx` file to the one you deployed to arbitrum sepolia before running the frontend.
+
+---
+
 > 🏃 Head to your next challenge [here](https://www.speedrunstylus.com/challenge/simple-nft-example).

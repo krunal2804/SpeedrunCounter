@@ -33,16 +33,16 @@ cast send 0x00000000000000000000000000000000000000FF "becomeChainOwner()" \
 
 # Deploy Cache Manager Contract
 echo "Deploying Cache Manager contract..."
-deploy_output=$(cast send --private-key 0xb6b15c8cb491557369f3c7d2c287b053eb229daa9c22138887752191c9520659 \
+cache_deploy_output=$(cast send --private-key 0xb6b15c8cb491557369f3c7d2c287b053eb229daa9c22138887752191c9520659 \
   --rpc-url http://127.0.0.1:8547 \
   --create 0x60a06040523060805234801561001457600080fd5b50608051611d1c61003060003960006105260152611d1c6000f3fe)
 
-# Extract contract address using awk from plain text output
-cache_manager_address=$(echo "$deploy_output" | awk '/contractAddress/ {print $2}')
+# Extract cache manager contract address using robust pattern
+cache_manager_address=$(echo "$cache_deploy_output" | grep "contractAddress" | grep -oE '0x[a-fA-F0-9]{40}')
 
 if [[ -z "$cache_manager_address" ]]; then
   echo "Error: Failed to extract Cache Manager contract address. Full output:"
-  echo "$deploy_output"
+  echo "$cache_deploy_output"
   exit 1
 fi
 
@@ -63,10 +63,8 @@ fi
 
 echo "Cache Manager deployed and registered successfully."
 
-# Deploy the contract using cargo stylus
-# Deploy the contract using cargo stylus
 echo "Deploying the contract using cargo stylus..."
-deploy_output=$(cargo stylus deploy -e http://127.0.0.1:8547 --private-key 0xb6b15c8cb491557369f3c7d2c287b053eb229daa9c22138887752191c9520659)
+deploy_output=$(cargo stylus deploy -e http://127.0.0.1:8547 --private-key 0xb6b15c8cb491557369f3c7d2c287b053eb229daa9c22138887752191c9520659 2>&1)
 
 # Check if deployment was successful
 if [[ $? -ne 0 ]]; then
@@ -75,53 +73,39 @@ if [[ $? -ne 0 ]]; then
     exit 1
 fi
 
-# Extract deployment transaction hash from the output
-# Assuming the output contains a transaction hash in the format 0x...
-deployment_tx=$(echo "$deploy_output" | grep -oE '0x[a-fA-F0-9]{64}')
+# Extract deployment transaction hash using robust pattern
+deployment_tx=$(echo "$deploy_output" | grep -i "transaction\|tx" | grep -oE '0x[a-fA-F0-9]{64}' | head -1)
 
+# Extract contract address using robust pattern
+contract_address=$(echo "$deploy_output" | grep -i "contract\|deployed" | grep -oE '0x[a-fA-F0-9]{40}' | head -1)
+
+# Fallback extraction if above patterns don't work
+if [[ -z "$deployment_tx" ]]; then
+    deployment_tx=$(echo "$deploy_output" | grep -oE '0x[a-fA-F0-9]{64}' | head -1)
+fi
+
+if [[ -z "$contract_address" ]]; then
+    contract_address=$(echo "$deploy_output" | grep -oE '0x[a-fA-F0-9]{40}' | head -1)
+fi
+
+# Verify extraction was successful
 if [[ -z "$deployment_tx" ]]; then
     echo "Error: Could not extract deployment transaction hash from output"
     echo "Deploy output: $deploy_output"
     exit 1
 fi
 
-echo "Deployment transaction hash: $deployment_tx"
+echo "Stylus contract deployed successfully!"
+echo "Transaction hash: $deployment_tx"
 
-# Extract contract address from deploy output (if available)
-contract_address=$(echo "$deploy_output" | grep -oE '0x[a-fA-F0-9]{40}')
 if [[ ! -z "$contract_address" ]]; then
     echo "Contract address: $contract_address"
 fi
 
-# Wait for deployment transaction to be confirmed by verifying with cargo stylus
-# echo "Waiting for deployment verification..."
-# max_attempts=30  # Maximum number of attempts (30 * 2 seconds = 1 minute timeout)
-# attempt=1
-
-# while [ $attempt -le $max_attempts ]; do
-#     verify_output=$(cargo stylus verify -e http://127.0.0.1:8547 --deployment-tx "$deployment_tx" 2>&1)
-#     echo "verify_output: $verify_output"
-#     verify_status=$?
-    
-#     if [ $verify_status -eq 0 ]; then
-#         echo "Contract verification successful!"
-#         break
-#     else
-#         echo "Attempt $attempt of $max_attempts: Waiting for contract to be verifiable..."
-#         if [ $attempt -eq $max_attempts ]; then
-#             echo "Error: Contract verification timed out after $max_attempts attempts"
-#             echo "Last verification attempt output: $verify_output"
-#             exit 1
-#         fi
-#         ((attempt++))
-#         sleep 2
-#     fi
-# done
-
 ############################################
 # Generate the ABI for the deployed contract
 echo "Generating ABI for the deployed contract..."
-cargo stylus export-abi
+cargo stylus export-abi > stylus-contract.abi
 
 # Verify if ABI generation was successful
 if [[ $? -ne 0 ]]; then
@@ -129,7 +113,23 @@ if [[ $? -ne 0 ]]; then
   exit 1
 fi
 
-echo "ABI generated successfully. Nitro node is running..."
+echo "ABI generated successfully and saved to stylus-contract.abi"
+
+# Create build directory if it doesn't exist
+mkdir -p build
+
+# Save deployment info to JSON file
+echo "{
+  \"network\": \"nitro-dev\",
+  \"cache_manager_address\": \"$cache_manager_address\",
+  \"contract_address\": \"${contract_address:-'N/A'}\",
+  \"transaction_hash\": \"$deployment_tx\",
+  \"rpc_url\": \"http://127.0.0.1:8547\",
+  \"deployment_time\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\"
+}" > build/stylus-deployment-info.json
+
+echo "Deployment info saved to build/stylus-deployment-info.json"
+echo "Deployment completed successfully on Nitro dev node!"
 
 # Keep the script running but also monitor the Nitro node
 while true; do
