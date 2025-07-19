@@ -33,14 +33,14 @@ Before starting, ensure you have the following installed:
   cargo install cargo-stylus
   ```
 
-    > ⚠️ **Note for Ubuntu users**: If you face issues related to pkg-config while trying to install cargo-stylus, run these commands:
+  > ⚠️ **Note for Ubuntu users**: If you face issues related to pkg-config while trying to install cargo-stylus, run these commands:
+
   ```bash
   sudo apt update
   sudo apt install pkg-config
   sudo apt install libssl-dev
   sudo apt install build-essential
   ```
-
 
 - [Foundry](https://getfoundry.sh/introduction/installation/) - Required for smart contract development
 
@@ -49,6 +49,7 @@ Before starting, ensure you have the following installed:
 #### 1. Open your WSL terminal.
 
 #### 2. Install Foundry using the official install script:
+
 ```bash
 curl -L https://foundry.paradigm.xyz | bash
 ```
@@ -112,7 +113,6 @@ cast --version
 ```bash
 forge --version
 ```
-
 
 ### 🚩 Challenge Setup Instructions
 
@@ -193,7 +193,6 @@ After running the devnode script, **copy the contract address** from the bash te
    ```bash
    yarn install
    ```
-
 
 4. Start the local devnode in Docker:
 
@@ -293,20 +292,51 @@ Shell scripts created in Windows often have `CRLF` line endings, which cause iss
 
 ---
 
+## 📊 Performance Tracking
+
+Before submitting your challenge, you can run the performance tracking script to analyze your application:
+
+1. **Navigate to the performance tracking directory:**
+
+   ```bash
+   cd packages/nextjs/services/web3
+   ```
+
+2. **Update the contract address:**
+   Open the `performanceTracking.js` file and paste the contract address that was deployed on your local node. (you can get contract address same as we have mentioned above in Docker_Img)
+
+3. **Run the performance tracking script:**
+   ```bash
+   node performanceTracking.js
+   ```
+
+This will provide insights about the savings when you cache your deployed contract. The output will show performance analysis similar to the image below:
+
+<!-- ![image](https://raw.githubusercontent.com/abhi152003/speedrun_stylus/refs/heads/counter/assets/performance.png) -->
+
+![image](https://raw.githubusercontent.com/purvik6062/speedrun_stylus/refs/heads/counter/assets/performance.png)
+
+> 📝 **Important**: Make sure to note down the **Latency Improvement** and **Gas Savings** values from the output, as you'll need to include these metrics when submitting your challenge.
+
+---
+
 ## 🚀 Submitting Your Challenge
 
 After you have completed the setup and are ready to submit your solution, follow these steps:
 
 1. **Create a New GitHub Repository**
+
    - Go to [GitHub](https://github.com/) and create a new repository (public or private as required by the challenge).
 
 2. **Set Your Local Repository's Remote URL**
+
    - In your project directory, update the remote URL to your new repository:
      ```bash
      git remote set-url origin https://github.com/yourusername/your-repo.git
      ```
 
 3. **Push Your Code to GitHub**
+
    - Add and commit any changes if you haven't already:
      ```bash
      git add .
@@ -413,10 +443,12 @@ If you want to deploy your contract to the Arbitrum Sepolia testnet, follow thes
 1. **Run the Sepolia Deployment Script**
 
    Open your terminal and run:
+
    ```bash
    cd packages/stylus-demo
    bash run-sepolia-deploy.sh
    ```
+
    This will deploy your contract to Arbitrum Sepolia and output the contract address and transaction hash.
 
 2. **Configure the Frontend for Sepolia**
@@ -441,6 +473,7 @@ If you want to deploy your contract to the Arbitrum Sepolia testnet, follow thes
    ```bash
    yarn run dev
    ```
+
    Your frontend will now connect to the Arbitrum Sepolia network and interact with your deployed contract.
 
    Note : Don't forget to change the contract address in the `DebugContracts.tsx` file to the one you deployed to arbitrum sepolia before running the frontend.
