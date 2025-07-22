@@ -412,14 +412,6 @@ If you want to deploy your contract to the Arbitrum Sepolia testnet, follow thes
 
 1. **Run the Sepolia Deployment Script**
 
-   Open your terminal and run:
-   ```bash
-   cd packages/stylus-demo
-   bash run-sepolia-deploy.sh
-   ```
-   This will deploy your contract to Arbitrum Sepolia and output the contract address and transaction hash.
-1. **Run the Sepolia Deployment Script**
-
    Export your private key in the terminal :
    ```bash
    export PRIVATE_KEY=your_private_key_of_your_ethereum_wallet
