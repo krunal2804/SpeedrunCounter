@@ -65,7 +65,7 @@ echo "Cache Manager contract deployed at address: $cache_manager_address"
 echo "NOTE: Skipping WASM cache manager registration on Sepolia (requires chain owner permissions)."
 
 echo "Deploying the Stylus contract using cargo stylus..."
-deploy_output=$(cargo stylus deploy -e "$SEPOLIA_RPC_URL" --private-key "$PRIVATE_KEY" 2>&1)
+deploy_output=$(cargo stylus deploy -e "$SEPOLIA_RPC_URL" --private-key "$PRIVATE_KEY" --no-verify 2>&1)
 
 # Check if deployment was successful
 if [[ $? -ne 0 ]]; then
