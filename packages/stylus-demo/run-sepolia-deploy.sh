@@ -33,21 +33,21 @@ echo "Connected to Arbitrum Sepolia!"
 
 # Deploy Cache Manager Contract
 # (Replace the bytecode below with your actual contract bytecode if needed)
-echo "Deploying Cache Manager contract to Arbitrum Sepolia..."
-cache_deploy_output=$(cast send --private-key "$PRIVATE_KEY" \
-  --rpc-url "$SEPOLIA_RPC_URL" \
-  --create 0x60a06040523060805234801561001457600080fd5b50608051611d1c61003060003960006105260152611d1c6000f3fe)
+# echo "Deploying Cache Manager contract to Arbitrum Sepolia..."
+# cache_deploy_output=$(cast send --private-key "$PRIVATE_KEY" \
+#   --rpc-url "$SEPOLIA_RPC_URL" \
+#   --create 0x60a06040523060805234801561001457600080fd5b50608051611d1c61003060003960006105260152611d1c6000f3fe)
 
-# Extract cache manager contract address using more precise pattern
-cache_manager_address=$(echo "$cache_deploy_output" | grep "contractAddress" | grep -oE '0x[a-fA-F0-9]{40}')
+# # Extract cache manager contract address using more precise pattern
+# cache_manager_address=$(echo "$cache_deploy_output" | grep "contractAddress" | grep -oE '0x[a-fA-F0-9]{40}')
 
-if [[ -z "$cache_manager_address" ]]; then
-  echo "Error: Failed to extract Cache Manager contract address. Full output:"
-  echo "$cache_deploy_output"
-  exit 1
-fi
+# if [[ -z "$cache_manager_address" ]]; then
+#   echo "Error: Failed to extract Cache Manager contract address. Full output:"
+#   echo "$cache_deploy_output"
+#   exit 1
+# fi
 
-echo "Cache Manager contract deployed at address: $cache_manager_address"
+# echo "Cache Manager contract deployed at address: $cache_manager_address"
 
 # Register the deployed Cache Manager contract
 # echo "Registering Cache Manager contract as a WASM cache manager..."
@@ -61,10 +61,8 @@ echo "Cache Manager contract deployed at address: $cache_manager_address"
 #   echo "$registration_output"
 #   exit 1
 # fi
-
-echo "NOTE: Skipping WASM cache manager registration on Sepolia (requires chain owner permissions)."
-
 echo "Deploying the Stylus contract using cargo stylus..."
+cargo stylus deploy -e "$SEPOLIA_RPC_URL" --private-key "$PRIVATE_KEY" --no-verify
 deploy_output=$(cargo stylus deploy -e "$SEPOLIA_RPC_URL" --private-key "$PRIVATE_KEY" --no-verify 2>&1)
 
 # Check if deployment was successful
