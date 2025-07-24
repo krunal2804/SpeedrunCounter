@@ -65,7 +65,6 @@ echo "Connected to Arbitrum Sepolia!"
 #   exit 1
 # fi
 echo "Deploying the Stylus contract using cargo stylus..."
-cargo stylus deploy -e "$SEPOLIA_RPC_URL" --private-key "$PRIVATE_KEY" --no-verify
 deploy_output=$(cargo stylus deploy -e "$SEPOLIA_RPC_URL" --private-key "$PRIVATE_KEY" --no-verify 2>&1)
 
 # Check if deployment was successful
